@@ -3,6 +3,20 @@ const router=express.Router();
 import Product from '../models/productModel.js'
 import asyncHandler from 'express-async-handler';
 import { protect,admin } from "../middleware/authMiddleware.js";
+import multer from 'multer';
+import AWS from 'aws-sdk';
+import fs from 'fs';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const upload = multer({ dest: "uploads/" });
+
+const s3 = new AWS.S3({
+  secretAccessKey: process.env.AWS_SECRET,
+  accessKeyId: process.env.ACCESS_KEY,
+  region:'us-east-1'
+});
 
 
 //fetch all products
@@ -39,6 +53,27 @@ router.delete('/:id',asyncHandler(async(req,res)=>{
     res.status(404).json({'message':"Product not found"})
 
 }))
+
+router.post("/uploadfile", protect, admin, upload.single("file"), protect, async (req, res) => {
+    var file = req.file;
+    try {
+      const uploadFile = (file) => {
+        const fileStream = fs.createReadStream(file.path);
+        const params = {
+          Bucket: "ecomproducts1",
+          Key: `products/${req.user._id}/${file.originalname}`,
+          Body: fileStream,
+        };
+        s3.upload(params, () => {});
+      };
+      uploadFile(file);
+      res.sendStatus(200);
+    } catch (err) {
+      res.sendStatus(400).json({
+        message: "Problem Occured while Uploading",
+      });
+    }
+  });
 
 
 
