@@ -1,0 +1,6 @@
+node_modules
+frontend
+Lambda
+package-lock.json
+.env
+
