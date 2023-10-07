@@ -15,7 +15,7 @@ router.get('/',protect,admin,asyncHandler(async(req,res)=>{
 }))
 
 
-router.post('/d',asyncHandler(async(req,res)=>{
+router.post('/login',asyncHandler(async(req,res)=>{
         const {email,password}=req.body;
 
         const user=await User.findOne({email:email});
