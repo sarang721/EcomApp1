@@ -1,0 +1,8 @@
+.searchterm{
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.searchterm:hover{
+    background-color: lightgray;
+}
