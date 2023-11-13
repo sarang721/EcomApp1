@@ -1,6 +1,7 @@
 .searchterm{
     padding: 5px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .searchterm:hover{

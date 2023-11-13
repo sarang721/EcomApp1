@@ -1,13 +1,17 @@
 import React from 'react'
 import './SearchSuggestion.css'
 
-const CheckoutSteps = ({data}) => {
-    console.log(data);
-    return (
-      <div className=''>
+const CheckoutSteps = (props) => {
+
+    const handleClick = (data)=>{
+          props.handleFilter(data)
+    }
+
+      return (
+      <div >
         {
-            data.map((data)=>{
-               return <p className='searchterm'>{data}</p>
+            props.data.map((data,index)=>{
+               return <p key={index} onClick={()=>handleClick(data)} className='searchterm'>{data}</p>
             })  
         }
       </div>
